@@ -79,7 +79,7 @@ def mailDialTimeout(domain, timeout):
                 done = true
                 ch = c
             # there's no channel in python to close
-    errSlice[]
+    errSlice = []
     for:
         res = ch
             if res.(type):
