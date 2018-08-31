@@ -25,10 +25,9 @@ class Deliverabler():
 def NewDeliverabler(domain, hostname, sourceAddr):
         # Dial any SMTP server that will accept a connection
 
-    server, err = mailDialTimeout(domain, timedelta.min)
-    if err is not None:
-        return err
-      # Sets the HELO/EHLO hostname
+    server = mailDialTimeout(domain, timedelta.min)
+
+    # Sets the HELO/EHLO hostname
     if server.helo(server.local_hostname):
         return err
         # Sets a source address
@@ -44,14 +43,10 @@ def NewDeliverabler(domain, hostname, sourceAddr):
 def mailDialTimeout(domain, timeout):
         #// Convert any internationalized domain names to ascii
 
-    asciiDomain, err = domain.encode("idna")
-    if err is not None:
-        asciiDomain = domain
+    asciiDomain = domain.encode("idna")
 
    # Retrieve all MX records
-    records, err = dns.resolver.query(asciidomain, 'MX').all()
-    if err is not nil:
-        return
+    records = dns.resolver.query(asciidomain, 'MX').all()
 
    # Verify that at least 1 MX record is found
     if len(records) == 0:
@@ -69,11 +64,7 @@ def mailDialTimeout(domain, timeout):
             = record.Host + ":25"
 
         def func():
-            c, err = smtpDialTimeout(addr, timeout)
-            if err is not None:
-                if !done:
-                    ch = err
-                    return
+            c = smtpDialTimeout(addr, timeout)
 
             # // Place the client on the channel or close it
 
@@ -102,10 +93,7 @@ def smtpDialTimeout(addr, timeout):
 
     # // Dial the new smtp connection
     def():
-        client, err = server.connect(addr)
-        if err is not None:
-            ch = err
-            return
+        client = server.connect(addr)
 
         ch = client
 
@@ -121,9 +109,7 @@ def IsDeliverable(email, retry):
         # Close the previous Deliverabler
             d.Close()
             # Generate a new Deliverabler
-            d, err = NewDeliverabler(d.domain, d.hostname, d.sourceAddr)
-            if err is not None:
-                return err
+            d = NewDeliverabler(d.domain, d.hostname, d.sourceAddr)
 
             # Retry deliverability check
             return d.IsDeliverable(email, retry - 1)

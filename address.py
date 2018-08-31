@@ -26,9 +26,7 @@ class Address():
 # // of an Address struct pointer - domain case insensitive
 def ParseAddress(email):
     # // Parses the address with the internal go mail address parser
-    a, err = mail.ParseAddress(unescape(email))
-    if err is not None:
-        return nil, err
+    a = mail.ParseAddress(unescape(email))
 
     # // Find the last occurrence of an @ sign
     str1 = "@"
@@ -52,8 +50,6 @@ def ParseAddress(email):
 
 
 def unescape(str):
-    esc, err = urllib.request.Request(str)
-    if err != None:
-        return str
+    esc = urllib.request.Request(str)
 
     return esc
