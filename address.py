@@ -1,3 +1,4 @@
+import verifier
 import os
 import logging
 import sys
@@ -14,7 +15,7 @@ ErrNoAtChar = errors.New("No '@' character found on email address")
 
 
 # // Address stores all information about an email Address
-class Address:
+class Address():
     Address = ""
     Username = ""
     Domain = ""
@@ -26,7 +27,7 @@ class Address:
 def ParseAddress(email):
     # // Parses the address with the internal go mail address parser
     a, err = mail.ParseAddress(unescape(email))
-    if err != None:
+    if err is not None:
         return nil, err
 
     # // Find the last occurrence of an @ sign
