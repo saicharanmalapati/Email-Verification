@@ -9,6 +9,7 @@ import datetime
 import dns.resolver
 from datetime import timedelta
 
+
 # Deliverabler contains the context and smtp.Client needed to check
 # email address deliverability
 

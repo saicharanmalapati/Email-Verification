@@ -3,7 +3,7 @@ import smtplib
 import dns.resolver
 
 # Address used for SMTP MAIL FROM command
-fromAddress = 'corn@bt.com'
+fromAddress = 'corn@btc.com'
 
 # Simple Regex for syntax checking
 regex = '^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$'
