@@ -1,3 +1,6 @@
+import re
+import smtplib
+import dns.resolver
 
 #  Verifier contains all dependencies needed to perform educated email
 #  verification lookups
@@ -29,7 +32,7 @@ def NewVerifier(hostname, sourceAddr):
 #  Verify performs an email verification on the passed email address
 def Verify(v, email, error):
     #  Allocate memory for the Lookup
-    Lookup l = new Lookup()
+    l = Lookup()
     l.Address.Address = email
 
     #  First parse the email address passed
@@ -39,15 +42,15 @@ def Verify(v, email, error):
     l.Address = address
 
     #  Attempt to form an SMTP Connection
-    del = NewDeliverabler(address.Domain, v.hostname, v.sourceAddr)
+    deli = NewDeliverabler(address.Domain, v.hostname, v.sourceAddr)
 
-    defer del.Close()  # // Defer close the SMTP connection
+    deli.quit()  # // Defer close the SMTP connection
 
     # Host exists if we've successfully formed a connection
     l.HostExists = True
 
     # Retrieve the catchall status and check deliverability
-    if del.HasCatchAll(3):
+    if deli.HasCatchAll(3):
         l.CatchAll = True
         l.Deliverable = True
 

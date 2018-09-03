@@ -11,7 +11,7 @@ import urllib.request
 
 #  ErrNoAtChar is thrown when no '@' character is found on an email
 #  address
-ErrNoAtChar = errors.New("No '@' character found on email address")
+#ErrNoAtChar = errors.New("No '@' character found on email address")
 
 
 #  Address stores all information about an email Address

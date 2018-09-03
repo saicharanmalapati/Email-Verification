@@ -39,19 +39,19 @@ def Error(e):
 
 #  ParseSMTPError receives an MX Servers response message
 #  and generates the cooresponding MX error
-def ParseSMTPError(err)
-    if err == None
+def ParseSMTPError(err):
+    if err == None:
         return None
 
     errStr = err.Error()
 
     # Verify the length of the error before reading nil indexes
-    if len(errStr) < 3
+    if len(errStr) < 3:
         return parseBasicErr(err)
 
     # Strips out the status code string and converts to an integer for parsing
-    status, convErr = strconv.Atoi(string([]rune(errStr)[0:3]))
-    if convErr != None
+    status, convErr = errstr.strip()
+    if convErr != None:
         return parseBasicErr(err)
 
     # If the status code is above 400 there was an error and we should return
@@ -69,7 +69,7 @@ def ParseSMTPError(err)
                        "recipient invalid",
                        "recipient rejected",
                        "address rejected",
-                       "no mailbox")
+                       "no mailbox"):
             return None
 
         if status == 421:
@@ -84,7 +84,7 @@ def ParseSMTPError(err)
                            "space",
                            "over quota",
                            "insufficient",
-                           )
+                           ):
                 return newLookupError(ErrFullInbox, errStr)
 
             return newLookupError(ErrTooManyRCPT, errStr)
@@ -99,7 +99,7 @@ def ParseSMTPError(err)
                            "blacklisted",
                            "blocked",
                            "block list",
-                           "denied")
+                           "denied"):
                 return newLookupError(ErrBlocked, errStr)
 
             return None
@@ -117,12 +117,11 @@ def ParseSMTPError(err)
 
 #  parseBasicErr parses a basic MX record response and returns
 #  a more understandable LookupError
-func parseBasicErr(err):
-    if err == None
+def parseBasicErr(err):
+    if err is None:
         return None
 
-    errStr:
-        = err.Error()
+    errStr = err.Error()
 
     #  Return a more understandable error
 
@@ -147,7 +146,7 @@ func parseBasicErr(err):
 #  contains is case insensitive
 def insContains(str, subStrs):
     for _, subStr in range(len(subStrs)):
-        if (str.lower()).contains(subStr.lower())
+        if (str.lower()).contains(subStr.lower()):
             return True
 
     return False

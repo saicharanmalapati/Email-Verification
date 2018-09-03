@@ -29,10 +29,10 @@ def NewDeliverabler(domain, hostname, sourceAddr):
 
     # Sets the HELO/EHLO hostname
     if server.helo(server.local_hostname):
-        return err
+        return
         # Sets a source address
-    if err = server.mail(sourceAddr)
-        return err
+    if err == server.mail(sourceAddr):
+        return
        # Return the deliverabler if successful
     return Deliverabler(client, domain, hostname, sourceAddr)
 
@@ -60,28 +60,27 @@ def mailDialTimeout(domain, timeout):
     bool = False
     #  Attempt to connect to all SMTP servers concurrently
     for record in records:
-        addr:
-            = record.Host + ":25"
+        addr = record.Host + ":25"
 
         def func():
             c = smtpDialTimeout(addr, timeout)
 
             #  Place the client on the channel or close it
 
-            if !done:
+            if not done:
                 done = true
                 ch = c
             # there's no channel in python to close
     errSlice = []
     # infinite loop
-    for:
+    while True:
         res = ch
-            if res.(type):
-                smtp.server
-                return res.(type)
+        if type(res):
+            smtp.server
+            return type(res)
 
-            else:
-                raise ValueError("Unexpected response dialing SMTP server")
+        else:
+            raise ValueError("Unexpected response dialing SMTP server")
 
 
 #  smtpDialTimeout is a timeout wrapper for smtp.Dial. It attempts to dial an
@@ -90,24 +89,25 @@ def mailDialTimeout(domain, timeout):
 
 def smtpDialTimeout(addr, timeout):
         #  Channel holding the new smtp.Client or error
-    ch = make(chan interface{}, 1)
+    # ch = make(chan interface{}, 1)
 
     #  Dial the new smtp connection
-    def():
-        client = server.connect(addr)
 
-        ch = client
+    client = server.connect(addr)
+
+    ch = client
 
 
 #  IsDeliverable takes an email address and performs the operation of adding
 #  the email to the envelope. It also receives a number of retries to reconnect
 #  to the MX server before erring out. If a 250 is received the email is valid
 def IsDeliverable(email, retry):
-    if err = d.client.Rcpt(email)
-    err is not None:
+
+    if server.rcpt(str(email)):
+        err = server.rcpt(str(email))
         #  If we determine a retry should take place
-        if shouldRetry(err) & & retry > 0
-        # Close the previous Deliverabler
+        if shouldRetry(err) and retry > 0:
+            # Close the previous Deliverabler
             d.Close()
             # Generate a new Deliverabler
             d = NewDeliverabler(d.domain, d.hostname, d.sourceAddr)
@@ -156,8 +156,7 @@ def shouldRetry(err):
 
 def randomEmail(domain):
     chars = "abcdefghijklmnopqrstuvwxyz0123456789"
-    result:
-        = make([]byte, 20)
+    result = []
     for i in range(20):
         result[i] = chars[random.randint(len(chars))]
 

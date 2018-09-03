@@ -10,5 +10,5 @@ def TestParse550RCPTError(t):
 def TestParse550BlockedRCPTError(t):
     err = "550 spamhaus"
     le = ParseSMTPError(err)
-    assert.Equal(t == le.Message)
-    assert.Equal(t == le.Details)
+    assert(t == le.Message)
+    assert(t == le.Details)
