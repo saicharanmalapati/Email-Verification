@@ -1,12 +1,12 @@
 ErrUnexpectedResponse = "Unexpected response from deliverabler"
 
-# // Standard Errors
+#  Standard Errors
 ErrTimeout = "The connection to the mail server has timed out"
 ErrNoSuchHost = "Mail server does not exist"
 ErrServerUnavailable = "Mail server is unavailable"
 ErrBlocked = "Blocked by mail server"
 
-# // RCPT Errors
+#  RCPT Errors
 ErrTryAgainLater = "Try again later"
 ErrFullInbox = "Recipient out of disk space"
 ErrTooManyRCPT = "Too many recipients"
@@ -17,47 +17,48 @@ ErrNotAllowed = "Not Allowed"
 ErrNeedMAILBeforeRCPT = "Need MAIL before RCPT"
 ErrRCPTHasMoved = "Recipient has moved"
 
-# / LookupError is an error
+#  LookupError is an error
 
 
 class LookupError():
     Message = ""
     Details = ""
 
-# // newLookupError creates a new LookupError reference and
-# // returns it
+#  newLookupError creates a new LookupError reference and
+#  returns it
 
 
 def newLookupError(message, details):
     return LookupError(message, details)
-# // Error satisfies the error interface
+#  Error satisfies the error interface
 
 
 def Error(e):
     return (e.Message, e.Details)
 
 
-# // ParseSMTPError receives an MX Servers response message
-# // and generates the cooresponding MX error
+#  ParseSMTPError receives an MX Servers response message
+#  and generates the cooresponding MX error
 def ParseSMTPError(err)
     if err == None
         return None
 
     errStr = err.Error()
 
-    # // Verify the length of the error before reading nil indexes
+    # Verify the length of the error before reading nil indexes
     if len(errStr) < 3
         return parseBasicErr(err)
 
-    # // Strips out the status code string and converts to an integer for parsing
+    # Strips out the status code string and converts to an integer for parsing
     status, convErr = strconv.Atoi(string([]rune(errStr)[0:3]))
     if convErr != None
         return parseBasicErr(err)
 
-    # // If the status code is above 400 there was an error and we should return it
+    # If the status code is above 400 there was an error and we should return
+    # it
     if status > 400:
-        # // Don't return an error if the error contains anything about the address
-        # // being undeliverable
+        #  Don't return an error if the error contains anything about the address
+        #  being undeliverable
         if insContains(errStr,
                        "undeliverable",
                        "does not exist",
@@ -69,7 +70,7 @@ def ParseSMTPError(err)
                        "recipient rejected",
                        "address rejected",
                        "no mailbox")
-            return nil
+            return None
 
         if status == 421:
             return newLookupError(ErrTryAgainLater, errStr)
@@ -89,7 +90,7 @@ def ParseSMTPError(err)
             return newLookupError(ErrTooManyRCPT, errStr)
         if status == 503:
             return newLookupError(ErrNeedMAILBeforeRCPT, errStr)
-        if status == 550:  # // 550 is Mailbox Unavailable - usually undeliverable
+        if status == 550:  # 550 is Mailbox Unavailable - usually undeliverable
             if insContains(errStr,
                            "spamhaus",
                            "proofpoint",
@@ -101,7 +102,7 @@ def ParseSMTPError(err)
                            "denied")
                 return newLookupError(ErrBlocked, errStr)
 
-            return nil
+            return None
         if status == 551:
             return newLookupError(ErrRCPTHasMoved, errStr)
         if status == 552:
@@ -114,16 +115,16 @@ def ParseSMTPError(err)
     return None
 
 
-# // parseBasicErr parses a basic MX record response and returns
-# // a more understandable LookupError
+#  parseBasicErr parses a basic MX record response and returns
+#  a more understandable LookupError
 func parseBasicErr(err):
-    if err == nil
+    if err == None
         return None
 
     errStr:
         = err.Error()
 
-    # // Return a more understandable error
+    #  Return a more understandable error
 
     if insContains(errStr,
                    "spamhaus",
@@ -141,9 +142,9 @@ func parseBasicErr(err):
         return newLookupError(ErrServerUnavailable, errStr)
 
 
-# // insContains returns true if any of the substrings
-# // are found in the passed string. This method of checking
-# // contains is case insensitive
+#  insContains returns true if any of the substrings
+#  are found in the passed string. This method of checking
+#  contains is case insensitive
 def insContains(str, subStrs):
     for _, subStr in range(len(subStrs)):
         if (str.lower()).contains(subStr.lower())
